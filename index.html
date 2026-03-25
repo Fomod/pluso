@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pluso — Tap & Match Numbers</title>
+    <meta name="description" content="A satisfying number puzzle game. Tap cells to increment, match 3+ connected same numbers to clear. Simple but endlessly deep.">
+    <meta property="og:title" content="Pluso — Tap & Match Numbers">
+    <meta property="og:description" content="Tap, match, chain, clear. A number puzzle game that's simple to learn and impossible to put down.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pluso.cybergame.ai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #eef2ea;
+            --bg-alt: #e4e9de;
+            --text: #1a2e1a;
+            --text-secondary: #5a6e5a;
+            --accent: #27702a;
+            --accent-light: #6ab86c;
+            --dark-bg: #1a2e1a;
+            --card-bg: #f5f8f2;
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-weight: 400;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 60px;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+            position: relative;
+        }
+
+        .hero .icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 26px;
+            box-shadow: 0 8px 32px rgba(39,112,42,0.15);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            letter-spacing: -1px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .hero .tagline {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .store-badge img {
+            height: 48px;
+            transition: transform 0.2s ease;
+        }
+
+        .store-badge:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ===== SCREENSHOTS ===== */
+        .screenshots {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            padding: 40px 24px 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .screenshots::-webkit-scrollbar { display: none; }
+
+        .screenshots img {
+            width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            scroll-snap-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ===== FEATURES ===== */
+        .features {
+            padding: 80px 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid rgba(39,112,42,0.06);
+        }
+
+        .feature-card .emoji {
+            font-size: 1.8em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.88em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            padding: 80px 24px;
+            background: var(--bg-alt);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 48px;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mode-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            border: 1px solid rgba(39,112,42,0.06);
+        }
+
+        .mode-card h3 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.4em;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .mode-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mode-card li {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 2;
+        }
+
+        .mode-card li::before {
+            content: "✦";
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            background: var(--dark-bg);
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: #e8ede8;
+            font-size: 2.4em;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #8a9e8a;
+            font-size: 1em;
+            margin-bottom: 32px;
+        }
+
+        .cta .store-badge img {
+            height: 48px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 32px 24px;
+            background: var(--dark-bg);
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        footer p {
+            font-size: 0.82em;
+            color: #6a7e6a;
+        }
+
+        footer a {
+            color: #8a9e8a;
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 640px) {
+            .hero { padding: 56px 20px 40px; }
+            .hero h1 { font-size: 2em; }
+            .hero .tagline { font-size: 0.95em; }
+            .hero .icon { width: 88px; height: 88px; border-radius: 20px; }
+            .screenshots img { width: 180px; }
+            .features, .how-it-works, .cta { padding: 56px 20px; }
+            .features h2, .how-it-works h2 { font-size: 1.6em; }
+            .cta h2 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <img class="icon" src="assets/icon.png" alt="Pluso App Icon">
+        <h1>Pluso</h1>
+        <p class="tagline">Tap & Match Numbers</p>
+        <a class="store-badge" href="https://apps.apple.com/app/pluso-tap-match-numbers/id6757728747" target="_blank">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+        </a>
+        <div class="screenshots">
+            <img src="assets/screenshot1.png" alt="Pluso home screen">
+            <img src="assets/screenshot2.png" alt="Pluso gameplay board">
+            <img src="assets/screenshot3.png" alt="Pluso achievement unlocked">
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2>Deceptively simple, endlessly deep</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="emoji">🔢</span>
+                <h3>Tap to +1</h3>
+                <p>Tap any cell to increment its number. Simple rule, infinite possibilities. Every tap changes the board in ways you didn't expect.</p>
+            </div>
+            <div class="feature-card">
+                <span class="emoji">⛓️</span>
+                <h3>Chain Reactions</h3>
+                <p>Match 3+ connected same numbers to clear them. Clearing triggers gravity, new cells fall, and more matches cascade automatically.</p>
+            </div>
+            <div class="feature-card">
+                <span class="emoji">🔥</span>
+                <h3>Combo Multipliers</h3>
+                <p>Chain clears stack multipliers up to 3x. One perfect tap can trigger 10+ cascading clears and massive score explosions.</p>
+            </div>
+            <div class="feature-card">
+                <span class="emoji">🏅</span>
+                <h3>Daily Challenge</h3>
+                <p>Same board for everyone, every day. Three attempts to post your best score. Compete on the global leaderboard.</p>
+            </div>
+            <div class="feature-card">
+                <span class="emoji">🏆</span>
+                <h3>37 Achievements</h3>
+                <p>From "Perfect Ten" to "Answer to the Universe." Six categories, four rarity tiers. Synced with Game Center.</p>
+            </div>
+            <div class="feature-card">
+                <span class="emoji">🌐</span>
+                <h3>5 Languages</h3>
+                <p>Play in English, Chinese (Simplified & Traditional), Japanese, or Korean. Fully localized interface and achievements.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+        <h2>How it works</h2>
+        <div class="modes-grid">
+            <div class="mode-card">
+                <h3>Classic</h3>
+                <ul>
+                    <li>5×5 board of numbered cells</li>
+                    <li>Tap to increment any cell by 1</li>
+                    <li>3+ connected same numbers auto-clear</li>
+                    <li>5 action points — each tap costs one</li>
+                    <li>Clears earn back action points</li>
+                </ul>
+            </div>
+            <div class="mode-card">
+                <h3>Daily Challenge</h3>
+                <ul>
+                    <li>Global seeded board — same puzzle for all</li>
+                    <li>3 attempts per day to maximize your score</li>
+                    <li>Real-time leaderboard via Game Center</li>
+                    <li>Build streaks for consecutive daily play</li>
+                    <li>Track history with a calendar view</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>One tap at a time.</h2>
+        <p>Free to play on iPhone.</p>
+        <a class="store-badge" href="https://apps.apple.com/app/pluso-tap-match-numbers/id6757728747" target="_blank">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 <a href="https://cybergame.ai" target="_blank">CyberGame Limited</a></p>
+    </footer>
+
+</body>
+</html>
