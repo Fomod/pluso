@@ -1,18 +1,10 @@
 {
   "applinks": {
-    "apps": [],
     "details": [
       {
         "appIDs": ["L7N3G6U4DX.cn.iizhi.plusone"],
         "components": [
-          {
-            "/": "/share/*",
-            "comment": "分享链接（成就、分数等）"
-          },
-          {
-            "/": "/challenge/*",
-            "comment": "每日挑战邀请"
-          }
+          { "/": "*" }
         ]
       }
     ]
